@@ -12,6 +12,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     public static int counterComputerWinners = 0;
+    public static int counterPlayerWinners = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         int random = new Random().nextInt(3);
 
-
         TextView textInputResult = findViewById(R.id.textInputResult);
-        TextView textInputCounter = findViewById(R.id.textInputCounterComputer);
+        TextView textInputCounterComputer = findViewById(R.id.textInputCounterComputer);
+        TextView textInputCounterPlayer = findViewById(R.id.textInputCounterPlayer);
+
 
         if(view.getId() == R.id.btnStart){
             switch (random){
@@ -88,17 +90,21 @@ public class MainActivity extends AppCompatActivity {
         if(btnComputer.getTag() ==  "pedra" && btnPlayer.getTag() ==  "papel"){
             //player win
             textInputResult.setText("You WIN");
+            counterPlayerWinners++;
         }
         if(btnComputer.getTag() ==  "tesoura" && btnPlayer.getTag() ==  "pedra"){
             //player win
             textInputResult.setText("You WIN");
+            counterPlayerWinners++;
         }
         if(btnComputer.getTag() ==  "papel" && btnPlayer.getTag() ==  "tesoura"){
             //player win
             textInputResult.setText("You WIN");
+            counterPlayerWinners++;
         }
 
-        textInputCounter.setText(String.valueOf(counterComputerWinners));
+        textInputCounterComputer.setText(String.valueOf(counterComputerWinners));
+        textInputCounterPlayer.setText(String.valueOf(counterPlayerWinners));
 
 
     }
@@ -112,6 +118,24 @@ public class MainActivity extends AppCompatActivity {
             btnComputer.setImageResource(R.drawable.vazio);
             btnPlayer.setImageResource(R.drawable.vazio);
             textInputResult.setText("");
+        }
+    }
+    public void reset(View view){
+
+        TextView textInputResult = findViewById(R.id.textInputResult);
+        TextView textInputCounterComputer = findViewById(R.id.textInputCounterComputer);
+        TextView textInputCounterPlayer = findViewById(R.id.textInputCounterPlayer);
+        ImageButton btnComputer = findViewById(R.id.btnComputer);
+        ImageButton btnPlayer = findViewById(R.id.btnPlayer);
+
+        if(view.getId() == R.id.btnReset){
+            btnComputer.setImageResource(R.drawable.vazio);
+            btnPlayer.setImageResource(R.drawable.vazio);
+            textInputResult.setText("");
+            textInputCounterPlayer.setText("");
+            textInputCounterComputer.setText("");
+            counterComputerWinners = 0;
+            counterPlayerWinners = 0;
         }
     }
 }
