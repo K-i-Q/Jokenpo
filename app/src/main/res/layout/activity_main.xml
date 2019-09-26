@@ -9,7 +9,7 @@
     <ImageButton
         android:id="@+id/btnComputer"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="120dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +21,8 @@
 
     <ImageButton
         android:id="@+id/btnPlayer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,8 +48,8 @@
     <ImageButton
         android:id="@+id/btnPaper"
         style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:background="@android:color/transparent"
         android:onClick="choose"
         android:scaleType="fitCenter"
@@ -62,8 +62,8 @@
     <ImageButton
         android:id="@+id/btnRock"
         style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:background="@android:color/transparent"
         android:onClick="choose"
         android:scaleType="fitCenter"
@@ -77,8 +77,8 @@
     <ImageButton
         android:id="@+id/btnScissors"
         style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:background="@android:color/transparent"
         android:onClick="choose"
         android:scaleType="fitCenter"
@@ -94,7 +94,7 @@
         android:layout_height="0dp"
         android:onClick="play"
         android:text="Play"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
@@ -105,7 +105,7 @@
         android:layout_height="0dp"
         android:onClick="clear"
         android:text="Clear"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
@@ -202,6 +202,19 @@
         tools:layout_editor_absoluteY="-1dp" />
 
     <TextView
+        android:id="@+id/textCounterTies"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Ties"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <TextView
         android:id="@+id/textInputCounterPlayer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -212,12 +225,29 @@
         app:layout_constraintStart_toEndOf="@+id/textResult"
         app:layout_constraintTop_toBottomOf="@+id/textCounterPlayer" />
 
+    <TextView
+        android:id="@+id/textInputDraw"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="556dp" />
+        app:layout_constraintGuide_begin="550dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="610dp" />
 
     <Button
         android:id="@+id/btnReset"
@@ -225,9 +255,20 @@
         android:layout_height="0dp"
         android:onClick="reset"
         android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <ImageView
+        android:id="@+id/imgTrofeu"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/trofeu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

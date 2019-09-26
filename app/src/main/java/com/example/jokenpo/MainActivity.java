@@ -2,9 +2,11 @@ package com.example.jokenpo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -13,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static int counterComputerWinners = 0;
     public static int counterPlayerWinners = 0;
+    public static int counterTies = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton btnComputer = findViewById(R.id.btnComputer);
         ImageButton btnPlayer = findViewById(R.id.btnPlayer);
+        ImageView trofeu = findViewById(R.id.imgTrofeu);
 
         int random = new Random().nextInt(3);
 
         TextView textInputResult = findViewById(R.id.textInputResult);
         TextView textInputCounterComputer = findViewById(R.id.textInputCounterComputer);
         TextView textInputCounterPlayer = findViewById(R.id.textInputCounterPlayer);
+        TextView textInputDraw = findViewById(R.id.textInputDraw);
 
 
         if(view.getId() == R.id.btnStart){
@@ -85,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         if(btnComputer.getTag() ==  btnPlayer.getTag() ){
             //Empate
             textInputResult.setText("DRAW");
+            counterTies++;
         }
 
         if(btnComputer.getTag() ==  "pedra" && btnPlayer.getTag() ==  "papel"){
@@ -105,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
 
         textInputCounterComputer.setText(String.valueOf(counterComputerWinners));
         textInputCounterPlayer.setText(String.valueOf(counterPlayerWinners));
+        textInputDraw.setText(String.valueOf(counterTies));
+
+        if (counterPlayerWinners == 10){
+            trofeu.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -127,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textInputCounterPlayer = findViewById(R.id.textInputCounterPlayer);
         ImageButton btnComputer = findViewById(R.id.btnComputer);
         ImageButton btnPlayer = findViewById(R.id.btnPlayer);
+        ImageView trofeu = findViewById(R.id.imgTrofeu);
 
         if(view.getId() == R.id.btnReset){
             btnComputer.setImageResource(R.drawable.vazio);
@@ -136,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
             textInputCounterComputer.setText("");
             counterComputerWinners = 0;
             counterPlayerWinners = 0;
+            counterTies = 0;
+            trofeu.setVisibility(View.INVISIBLE);
         }
     }
 }
