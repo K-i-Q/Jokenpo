@@ -1,30 +1,118 @@
 package com.example.jokenpo;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    int jogador = new Random().nextInt();
     public static int counterComputerWinners = 0;
     public static int counterPlayerWinners = 0;
     public static int counterTies = 0;
+    public String latitude;
+    public String longitude;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                latitude = "" + location.getLongitude();
+                latitude = "" + location.getLatitude();
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        ActivityCompat.requestPermissions(this, permissions, 1);
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("jokenpo");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren() ){
+                    Integer jogadorRemoto = data.child("jogador").getValue(Integer.class);
+                    Integer escolha = data.child("escolha").getValue(Integer.class);
+
+                    ImageButton btnPlayer = findViewById(R.id.btnPlayer);
+                    ImageButton btnComputer = findViewById(R.id.btnComputer);
+                    if (jogadorRemoto.equals(jogador)){
+                        btnPlayer.setImageResource(escolha);
+                    }else{
+                        btnComputer.setImageResource(escolha);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void choose(View view){
         ImageButton btnPlayer = findViewById(R.id.btnPlayer);
+
+        Jogada jogada = new Jogada();
+        jogada.setJogador(jogador);
+        jogada.setLatitude(latitude);
+        jogada.setLongitude(longitude);
+
 
         if(view.getId() == R.id.btnPaper){
             btnPlayer.setImageResource(R.drawable.papel);
@@ -38,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
             btnPlayer.setImageResource(R.drawable.tesoura);
             btnPlayer.setTag("tesoura");
         }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("jokenpo");
+        myRef.push().setValue(jogada);
     }
     public void play(View view){
 
